@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './../../domain/entity/user.entity';
@@ -21,10 +21,10 @@ export class UserService {
 
   async validateUser(username: string, password: string): Promise<{ accessToken: string } | null> {
     const user = await this.userRepository.findOneBy({ username });
-    if (!user) return null;
+    if (!user) throw new HttpException('Usuario o contraseña invalidos',HttpStatus.UNAUTHORIZED);
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) return null;
+    if (!isPasswordValid) throw new HttpException('Usuario o contraseña invalidos',HttpStatus.UNAUTHORIZED);
 
     const payload = { sub: user.id, username: user.username };
     const accessToken = this.jwtService.sign(payload);
