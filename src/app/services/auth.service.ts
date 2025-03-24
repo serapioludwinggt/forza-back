@@ -1,31 +1,38 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+
+const BASE_URL = 'http://localhost:3000/users';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private loggedIn = false;
-  private users: { [key: string]: string } = {}; // Simulación de almacenamiento
+  private tokenKey = 'auth_token';
 
-  login(username: string, password: string): boolean {
-    if (this.users[username] === password) {
-      this.loggedIn = true;
-      return true;
-    }
-    return false;
+  constructor(private http: HttpClient) {}
+
+  register(username: string, password: string): Observable<any> {
+    return this.http.post(`${BASE_URL}/register`, { username, password });
   }
 
-  register(username: string, password: string): boolean {
-    if (this.users[username]) return false; // Ya existe
-    this.users[username] = password;
-    return true;
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<{ token: string }>(`${BASE_URL}/login`, { username, password }).pipe(
+      tap(response => {
+        localStorage.setItem(this.tokenKey, response.token);
+      })
+    );
   }
 
-  logout() {
-    this.loggedIn = false;
+  logout(): void {
+    localStorage.removeItem(this.tokenKey);
   }
 
   isAuthenticated(): boolean {
-    return this.loggedIn;
+    return !!localStorage.getItem(this.tokenKey);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 }
