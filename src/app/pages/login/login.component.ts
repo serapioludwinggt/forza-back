@@ -1,4 +1,3 @@
-// login.component.ts
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -25,10 +24,14 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit() {
-    if (this.auth.login(this.username, this.password)) {
-      this.router.navigate(['/home']);
-    } else {
-      this.errorMessage = 'Credenciales incorrectas';
-    }
+    this.auth.login(this.username, this.password).subscribe({
+      next: () => {
+        this.errorMessage = '';
+        this.router.navigate(['/home']); // o '/products', según tu flujo
+      },
+      error: (err) => {
+        this.errorMessage = err?.error?.message || 'Credenciales incorrectas';
+      }
+    });
   }
 }
