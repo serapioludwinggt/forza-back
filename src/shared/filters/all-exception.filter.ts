@@ -7,10 +7,11 @@ import {
     Logger,
   } from '@nestjs/common';
   import { Request, Response } from 'express';
+import { AppLogger } from '../logger/app.logger';
   
   @Catch()
   export class AllExceptionsFilter implements ExceptionFilter {
-    private readonly logger = new Logger(AllExceptionsFilter.name);
+    constructor(private readonly logger: AppLogger){}
   
     catch(exception: unknown, host: ArgumentsHost) {
       const ctx = host.switchToHttp();

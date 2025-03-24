@@ -11,31 +11,31 @@ export class AppLogger extends ConsoleLogger {
     }
 
     log(message: string, context?: string) {
-        const requestId = this.request['requestId'];
+        const requestId = this.request?.['requestId'] ?? 'INIT';
         message = `ID [${requestId}]: ${message}`;
         super.log(message, context);
     }
 
     error(message: string, trace?: string, context?: string) {
-        const requestId = this.request['requestId'];
+        const requestId = this.request?.['requestId'] ?? 'INIT';
         message = `ID [${requestId}]: ${message}`;
         super.error(message, trace, context);
     }
 
     warn(message: string, context?: string) {
-        const requestId = this.request['requestId'];
+        const requestId = this.request?.['requestId'] ?? 'INIT';
         message = `ID [${requestId}]: ${message}`;
         super.warn(message, context);
     }
 
     debug(message: string, context?: string) {
-        const requestId = this.request['requestId'];
+        const requestId = this.request?.['requestId'] ?? 'INIT';
         message = `ID [${requestId}]: ${message}`;
         super.debug?.(message, context); // Optional, depending on config
     }
 
     verbose(message: string, context?: string) {
-        const requestId = this.request['requestId'];
+        const requestId = this.request?.['requestId'] ?? 'INIT';
         message = `ID [${requestId}]: ${message}`;
         super.verbose?.(message, context);
     }
