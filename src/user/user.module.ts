@@ -4,6 +4,7 @@ import { UserEntity } from './domain/entity/user.entity';
 import { UserService } from './application/service/user.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UserController } from './infrastructure/controller/user.controller';
 
 @Module({
   imports: [
@@ -20,5 +21,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   ],
   providers: [UserService],
   exports: [UserService],
+  controllers:[UserController]
 })
 export class UserModule {}
