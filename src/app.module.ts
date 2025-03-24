@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
@@ -8,6 +8,7 @@ import { UserEntity } from './user/domain/entity/user.entity';
 import { ProductEntity } from './product/domain/entity/product.entity';
 import { BankModule } from './bank/bank.module';
 import { AppLogger } from './shared/logger/app.logger';
+import { RequestLoggerMiddleware } from './shared/middlewares/id.middleware';
 
 @Module({
   imports: [
@@ -35,10 +36,16 @@ import { AppLogger } from './shared/logger/app.logger';
     ProductModule,
     AuthModule,
     BankModule,
+  ],
+  providers: [
     AppLogger,
   ],
   exports:[
     AppLogger,
   ]
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestLoggerMiddleware).forRoutes('*'); // 👈 aplica a todas las rutas
+  }
+}
