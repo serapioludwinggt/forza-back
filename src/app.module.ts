@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserEntity } from './user/domain/entity/user.entity';
 import { ProductEntity } from './product/domain/entity/product.entity';
 import { BankModule } from './bank/bank.module';
+import { AppLogger } from './shared/logger/app.logger';
 
 @Module({
   imports: [
@@ -34,6 +35,10 @@ import { BankModule } from './bank/bank.module';
     ProductModule,
     AuthModule,
     BankModule,
+    AppLogger,
   ],
+  exports:[
+    AppLogger,
+  ]
 })
 export class AppModule {}
