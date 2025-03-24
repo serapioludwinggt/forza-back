@@ -1,12 +1,21 @@
 // login.component.ts
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from '../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  imports: [
+    CommonModule,
+    NavbarComponent,
+    FormsModule,
+    RouterModule,
+  ],
 })
 export class LoginComponent {
   username = '';
