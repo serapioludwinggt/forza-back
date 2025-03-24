@@ -8,6 +8,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-product-list',
+  standalone: true,
   templateUrl: './product-list.component.html',
   imports: [
     CommonModule,
@@ -18,6 +19,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
+  errorMessage = '';
 
   constructor(private productService: ProductService) {}
 
@@ -25,14 +27,28 @@ export class ProductListComponent implements OnInit {
     this.loadProducts();
   }
 
-  loadProducts() {
-    this.products = this.productService.getAll();
+  loadProducts(): void {
+    this.productService.getAll().subscribe({
+      next: (products) => {
+        this.products = products;
+        this.errorMessage = '';
+      },
+      error: (err) => {
+        this.errorMessage = 'Error al cargar productos.';
+        console.error(err);
+      }
+    });
   }
 
-  delete(id: number) {
+  delete(id: number): void {
     if (confirm('¿Estás seguro de eliminar este producto?')) {
-      this.productService.delete(id);
-      this.loadProducts();
+      this.productService.delete(id).subscribe({
+        next: () => this.loadProducts(),
+        error: (err) => {
+          this.errorMessage = 'No se pudo eliminar el producto.';
+          console.error(err);
+        }
+      });
     }
   }
 }
