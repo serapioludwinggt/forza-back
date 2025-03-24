@@ -1,34 +1,34 @@
-// product.service.ts
+// src/app/services/product.service.ts
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
+import { Observable } from 'rxjs';
+
+const BASE_URL = 'http://localhost:3000/products';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private products: Product[] = [];
-  private nextId = 1;
+  constructor(private http: HttpClient) {}
 
-  getAll(): Product[] {
-    return [...this.products]; // copia
+  getAll(): Observable<Product[]> {
+    return this.http.get<Product[]>(BASE_URL);
   }
 
-  getById(id: number): Product | undefined {
-    return this.products.find(p => p.id === id);
+  getById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${BASE_URL}/${id}`);
   }
 
-  create(product: Omit<Product, 'id'>): void {
-    this.products.push({ ...product, id: this.nextId++ });
+  create(product: Omit<Product, 'id'>): Observable<Product> {
+    return this.http.post<Product>(BASE_URL, product);
   }
 
-  update(id: number, product: Omit<Product, 'id'>): boolean {
-    const index = this.products.findIndex(p => p.id === id);
-    if (index === -1) return false;
-    this.products[index] = { id, ...product };
-    return true;
+  update(id: number, product: Omit<Product, 'id'>): Observable<Product> {
+    return this.http.put<Product>(`${BASE_URL}/${id}`, product);
   }
 
-  delete(id: number): void {
-    this.products = this.products.filter(p => p.id !== id);
+  delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${BASE_URL}/${id}`);
   }
 }
