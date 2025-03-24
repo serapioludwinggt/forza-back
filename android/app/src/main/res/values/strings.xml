@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">forza-front</string>
+    <string name="title_activity_main">forza-front</string>
+    <string name="package_name">com.forzafront.com</string>
+    <string name="custom_url_scheme">com.forzafront.com</string>
+</resources>
