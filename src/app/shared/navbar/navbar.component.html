@@ -1,5 +1,12 @@
-<nav *ngIf="isLoggedIn">
-    <a routerLink="/home">Inicio</a>
-    <a routerLink="/products">Productos</a>
-    <button (click)="logout()">Cerrar sesión</button>
-</nav>
+<nav *ngIf="isLoggedIn" class="navbar">
+    <div class="navbar-container">
+      <div class="navbar-logo">
+        <a routerLink="/products">MiEmpresa</a>
+      </div>
+      <div class="navbar-links">
+        <a routerLink="/products">Productos</a>
+        <button (click)="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+  </nav>
+  

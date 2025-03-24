@@ -9,6 +9,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
+  styleUrl: './login.component.css',
   imports: [
     CommonModule,
     NavbarComponent,
@@ -27,7 +28,7 @@ export class LoginComponent {
     this.auth.login(this.username, this.password).subscribe({
       next: () => {
         this.errorMessage = '';
-        this.router.navigate(['/home']); // o '/products', según tu flujo
+        this.router.navigate(['/products']); // o '/products', según tu flujo
       },
       error: (err) => {
         this.errorMessage = err?.error?.message || 'Credenciales incorrectas';

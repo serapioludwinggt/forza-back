@@ -10,6 +10,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
   selector: 'app-product-form',
   standalone: true,
   templateUrl: './product-form.component.html',
+  styleUrl: './product-form.component.css',
   imports: [
     CommonModule,
     NavbarComponent,

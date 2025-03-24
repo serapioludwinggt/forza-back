@@ -14,7 +14,8 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     RouterModule,
   ],
-  templateUrl: './navbar.component.html'
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
   constructor(public auth: AuthService, private router: Router) {}

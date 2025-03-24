@@ -1,11 +1,20 @@
-<h2>Lista de Productos</h2>
-<a routerLink="/products/new">+ Nuevo Producto</a>
+<div class="product-list-container">
+  <div class="header">
+    <h2>Lista de Productos</h2>
+    <a routerLink="/products/new" class="new-product-btn">+ Nuevo Producto</a>
+  </div>
 
-<ul>
-  <li *ngFor="let product of products">
-    <strong>{{ product.name }}</strong> - Q{{ product.price }}<br />
-    <em *ngIf="product.description">{{ product.description }}</em><br />
-    <a [routerLink]="['/products', product.id, 'edit']">Editar</a> |
-    <a href="#" (click)="delete(product.id)">Eliminar</a>
-  </li>
-</ul>
+  <div class="product-list">
+    <div *ngFor="let product of products" class="product-card">
+      <div class="product-info">
+        <strong class="product-name">{{ product.name }}</strong>
+        <span class="product-price">Q{{ product.price }}</span>
+        <p class="product-description" *ngIf="product.description">{{ product.description }}</p>
+      </div>
+      <div class="product-actions">
+        <a [routerLink]="['/products', product.id, 'edit']" class="edit-btn">Editar</a>
+        <button (click)="delete(product.id)" class="delete-btn">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,6 +8,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  styleUrl: './register.component.css',
   standalone: true,
   imports: [
     CommonModule,

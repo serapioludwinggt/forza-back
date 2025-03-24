@@ -1,9 +1,30 @@
-<h2>{{ isEditMode ? 'Editar' : 'Nuevo' }} Producto</h2>
+<div class="product-form-container">
+  <h2>{{ isEditMode ? 'Editar' : 'Nuevo' }} Producto</h2>
 
-<form (ngSubmit)="onSubmit()">
-  <input [(ngModel)]="product.name" name="name" placeholder="Nombre" required />
-  <input type="number" [(ngModel)]="product.price" name="price" placeholder="Precio" required />
-  <textarea [(ngModel)]="product.description" name="description" placeholder="Descripción (opcional)"></textarea>
-  <br />
-  <button type="submit">Guardar</button>
-</form>
+  <form (ngSubmit)="onSubmit()" class="product-form">
+    <input
+      type="text"
+      [(ngModel)]="product.name"
+      name="name"
+      placeholder="Nombre del producto"
+      required
+    />
+
+    <input
+      type="number"
+      [(ngModel)]="product.price"
+      name="price"
+      placeholder="Precio"
+      required
+    />
+
+    <textarea
+      [(ngModel)]="product.description"
+      name="description"
+      placeholder="Descripción (opcional)"
+      rows="4"
+    ></textarea>
+
+    <button type="submit">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+  </form>
+</div>
