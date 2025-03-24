@@ -8,6 +8,7 @@ import { NavbarComponent } from '../../../shared/navbar/navbar.component';
 
 @Component({
   selector: 'app-product-form',
+  standalone: true,
   templateUrl: './product-form.component.html',
   imports: [
     CommonModule,
@@ -20,6 +21,7 @@ export class ProductFormComponent implements OnInit {
   isEditMode = false;
   product: Omit<Product, 'id'> = { name: '', price: 0, description: '' };
   id!: number;
+  errorMessage = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -32,26 +34,41 @@ export class ProductFormComponent implements OnInit {
     if (paramId) {
       this.isEditMode = true;
       this.id = Number(paramId);
-      const existing = this.productService.getById(this.id);
-      if (existing) {
-        this.product = {
-          name: existing.name,
-          price: existing.price,
-          description: existing.description
-        };
-      } else {
-        alert('Producto no encontrado');
-        this.router.navigate(['/products']);
-      }
+
+      this.productService.getById(this.id).subscribe({
+        next: (product) => {
+          this.product = {
+            name: product.name,
+            price: product.price,
+            description: product.description
+          };
+        },
+        error: (err) => {
+          this.errorMessage = 'Producto no encontrado.';
+          console.error(err);
+          this.router.navigate(['/products']);
+        }
+      });
     }
   }
 
   onSubmit() {
     if (this.isEditMode) {
-      this.productService.update(this.id, this.product);
+      this.productService.update(this.id, this.product).subscribe({
+        next: () => this.router.navigate(['/products']),
+        error: (err) => {
+          this.errorMessage = 'Error al actualizar el producto.';
+          console.error(err);
+        }
+      });
     } else {
-      this.productService.create(this.product);
+      this.productService.create(this.product).subscribe({
+        next: () => this.router.navigate(['/products']),
+        error: (err) => {
+          this.errorMessage = 'Error al crear el producto.';
+          console.error(err);
+        }
+      });
     }
-    this.router.navigate(['/products']);
   }
 }
