@@ -1,0 +1,11 @@
+<h2>Lista de Productos</h2>
+<a routerLink="/products/new">+ Nuevo Producto</a>
+
+<ul>
+  <li *ngFor="let product of products">
+    <strong>{{ product.name }}</strong> - Q{{ product.price }}<br />
+    <em *ngIf="product.description">{{ product.description }}</em><br />
+    <a [routerLink]="['/products', product.id, 'edit']">Editar</a> |
+    <a href="#" (click)="delete(product.id)">Eliminar</a>
+  </li>
+</ul>
