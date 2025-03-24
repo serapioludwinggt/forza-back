@@ -8,6 +8,7 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  standalone: true,
   imports: [
     CommonModule,
     NavbarComponent,
@@ -24,12 +25,16 @@ export class RegisterComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   onSubmit() {
-    const success = this.auth.register(this.username, this.password);
-    if (success) {
-      this.successMessage = 'Usuario registrado con éxito. Redirigiendo a login...';
-      setTimeout(() => this.router.navigate(['/login']), 2000);
-    } else {
-      this.errorMessage = 'Este usuario ya existe.';
-    }
+    this.auth.register(this.username, this.password).subscribe({
+      next: () => {
+        this.successMessage = 'Usuario registrado con éxito. Redirigiendo a login...';
+        this.errorMessage = '';
+        setTimeout(() => this.router.navigate(['/login']), 2000);
+      },
+      error: (err) => {
+        this.successMessage = '';
+        this.errorMessage = err.error?.message || 'Este usuario ya existe o hubo un error.';
+      }
+    });
   }
 }
