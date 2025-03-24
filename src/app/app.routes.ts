@@ -7,14 +7,9 @@ import { ProductListComponent } from './pages/products/product-list/product-list
 import { ProductFormComponent } from './pages/products/product-form/product-form.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/products', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard]
-  },
   { path: 'products', component: ProductListComponent, canActivate: [AuthGuard] },
   { path: 'products/new', component: ProductFormComponent, canActivate: [AuthGuard] },
   { path: 'products/:id/edit', component: ProductFormComponent, canActivate: [AuthGuard] },
